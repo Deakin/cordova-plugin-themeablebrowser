@@ -46,6 +46,7 @@
 #define    kThemeableBrowserPropTitle @"title"
 #define    kThemeableBrowserPropCancel @"cancel"
 #define    kThemeableBrowserPropItems @"items"
+#define    kThemeableBrowserPropDescription @"description" // cricotti
 
 #define    kThemeableBrowserEmitError @"ThemeableBrowserError"
 #define    kThemeableBrowserEmitWarning @"ThemeableBrowserWarning"
@@ -932,6 +933,12 @@
 {
     UIButton* result = nil;
     if (buttonProps) {
+        
+        // cricotti
+        if (buttonProps[kThemeableBrowserPropDescription]) {
+            description = buttonProps[kThemeableBrowserPropDescription];
+        }
+        
         UIImage *buttonImage = nil;
         if (buttonProps[kThemeableBrowserPropImage] || buttonProps[kThemeableBrowserPropWwwImage]) {
             buttonImage = [self getImage:buttonProps[kThemeableBrowserPropImage]

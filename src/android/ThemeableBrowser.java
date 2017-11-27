@@ -871,6 +871,7 @@ public class ThemeableBrowser extends CordovaPlugin {
                     for (int i = 0; i < features.customButtons.length; i++) {
                         final BrowserButton buttonProps = features.customButtons[i];
                         final int index = i;
+
                         Button button = createButton(
                             buttonProps,
                             String.format("custom button at %d", i),
@@ -1187,14 +1188,19 @@ public class ThemeableBrowser extends CordovaPlugin {
         }
     }
 
-    private Button createButton(BrowserButton buttonProps, String description,
-            View.OnClickListener listener) {
+    private Button createButton(BrowserButton buttonProps, String description, View.OnClickListener listener) {
         Button result = null;
         if (buttonProps != null) {
             result = new Button(cordova.getActivity());
-            result.setContentDescription(description);
-            result.setLayoutParams(new LinearLayout.LayoutParams(
-                    LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+                     
+            // cricotti (fix accessibility bug)
+            String buttonDescription = description;
+            if (buttonProps.description != "") {
+                buttonDescription = buttonProps.description;
+            }
+
+            result.setContentDescription(buttonDescription);
+            result.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
             setButtonImages(result, buttonProps, DISABLED_ALPHA);
             if (listener != null) {
                 result.setOnClickListener(listener);
@@ -1525,7 +1531,8 @@ public class ThemeableBrowser extends CordovaPlugin {
         public String imagePressed;
         public String wwwImagePressed;
         public double wwwImageDensity = 1;
-        public String align = ALIGN_LEFT;
+        public String align = ALIGN_LEFT;        
+        public String description = ""; // cricotti (fix accessibility bug)
     }
 
     private static class BrowserMenu extends BrowserButton {
